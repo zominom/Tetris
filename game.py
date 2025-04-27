@@ -8,7 +8,7 @@ import asyncio
 from board import Board
 from Shapes import IShape, SShape, OShape, TShape, ZShape, JShape, LShape
 from utils import send_frame, activate_fun_mode
-from utils import DEVICE_MAC, CHAR_UUID, WIDTH, HEIGHT
+from constants import DEVICE_MAC, CHAR_UUID, WIDTH, HEIGHT
 
 class Game(Thread):
     def __init__(self, width, height):
@@ -48,7 +48,7 @@ class Game(Thread):
                     await send_frame(client, self._board)
 
                     self._current_postion = self._board.move_shape_down(self._current_piece, self._current_postion)
-                    self._board.clear_lines()
+                    self._score += self._board.clear_lines() * 1000
 
                     while self._current_postion == last_position:
                         if not self.spawn_piece():

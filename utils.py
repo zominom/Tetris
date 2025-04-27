@@ -3,13 +3,8 @@ import asyncio
 from PIL import Image
 
 from board import Board
+from constants import CHAR_UUID, DEVICE_MAC, WIDTH, HEIGHT
 
-
-DEVICE_MAC = "4D:0C:41:7A:0A:1B"
-CHAR_UUID = "0000fa02-0000-1000-8000-00805f9b34fb"
-
-WIDTH, HEIGHT = 96, 16
-BLOCK_SIZE = 2
 
 def create_frame(board: Board):
     img = Image.new('RGB', (WIDTH, HEIGHT))

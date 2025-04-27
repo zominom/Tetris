@@ -1,5 +1,5 @@
 from Shapes.Shape import Shape
-from utils import WIDTH, HEIGHT
+from constants import WIDTH, HEIGHT, BLOCK_SIZE
 
 class Board:
     def __init__(self, width=WIDTH, height=HEIGHT):
@@ -64,12 +64,12 @@ class Board:
 
     def move_shape_left(self, shape: Shape, position):
         x_offset, y_offset = position
-        new_position = (x_offset - 1, y_offset)
+        new_position = (x_offset - BLOCK_SIZE, y_offset)
         return new_position if self._move_shape(shape, position, new_position) else position
     
     def move_shape_right(self, shape: Shape, position):
         x_offset, y_offset = position
-        new_position = (x_offset + 1, y_offset)
+        new_position = (x_offset + BLOCK_SIZE, y_offset)
         return new_position if self._move_shape(shape, position, new_position) else position
 
     def move_shape_down(self, shape: Shape, position):
@@ -86,3 +86,5 @@ class Board:
         for y in lines_to_clear:
             for x in range(self._width):
                 self.grid[y][x] = (0, 0, 0)
+
+        return len(lines_to_clear)
