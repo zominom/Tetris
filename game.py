@@ -21,7 +21,7 @@ class Game(Thread):
         self._score = 0
 
     def spawn_piece(self):
-        self._current_piece = choice([IShape.IShape(), SShape.SShape(), OShape.OShape(), TShape.TShape(), ZShape.ZShape(), JShape.JShape(), LShape.LShape()])
+        self._current_piece = choice([IShape.IShape, SShape.SShape, OShape.OShape, TShape.TShape, ZShape.ZShape, JShape.JShape, LShape.LShape])()
         self._current_postion = (randint(0, self._width - 1), 0)
         return self._board.draw_shape(self._current_piece, self._current_postion)
 
@@ -51,9 +51,6 @@ class Game(Thread):
                     self._board.clear_lines()
 
                     while self._current_postion == last_position:
-                        self._current_postion = (randint(6, 90), 0)
-                        self._current_piece = choice([IShape.IShape, SShape.SShape, OShape.OShape, TShape.TShape, ZShape.ZShape, JShape.JShape, LShape.LShape])()
-                        
                         if not self.spawn_piece():
                             self._current_postion = last_position
 
