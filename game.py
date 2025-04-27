@@ -38,23 +38,23 @@ class Game(Thread):
         
 
     async def run(self):
-        with Listener(on_press=self.on_press) as listener:
-            async with BleakClient(DEVICE_MAC) as client:
-                await client.write_gatt_char(CHAR_UUID, activate_fun_mode())
-                await asyncio.sleep(0.5)
-                # Start the Tetris game
-                while True:
-                    last_position = self._current_postion
-                    await send_frame(client, self._board)
+        self.spawn_piece()
 
-                    self._current_postion = self._board.move_shape_down(self._current_piece, self._current_postion)
-                    self._score += self._board.clear_lines() * 1000
+        async with BleakClient(DEVICE_MAC) as client, Listener(on_press=self.on_press) as listener:
+            await client.write_gatt_char(CHAR_UUID, activate_fun_mode())
+            await asyncio.sleep(0.5)
 
-                    while self._current_postion == last_position:
-                        if not self.spawn_piece():
-                            self._current_postion = last_position
+            while not self._game_over:
+                await send_frame(client, self._board)
+                last_position = self._current_postion
+
+                self._current_postion = self._board.move_shape_down(self._current_piece, self._current_postion)
+                self._score += self._board.clear_lines() * 1000
+
+                if self._current_postion == last_position:
+                    if not self.spawn_piece():
+                        self._game_over = True
 
 if __name__ == "__main__":
     game = Game(WIDTH, HEIGHT)
-    game.spawn_piece()
     asyncio.run(game.run())
