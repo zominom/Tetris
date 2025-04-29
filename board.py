@@ -5,7 +5,7 @@ class Board:
     def __init__(self, width=WIDTH, height=HEIGHT):
         self._width = width
         self._height = height
-        self.grid = [[(0, 0, 0) for _ in range(WIDTH)] for _ in range(HEIGHT)]
+        self.grid = [[(0, 0, 0) for _ in range(self._width)] for _ in range(self._height)]
 
     def is_drawable(self, shape: Shape, position):
         x_offset, y_offset = position
@@ -74,7 +74,7 @@ class Board:
 
     def move_shape_down(self, shape: Shape, position):
         x_offset, y_offset = position
-        new_position = (x_offset, y_offset + 1)
+        new_position = (x_offset, y_offset + 2)
         return new_position if self._move_shape(shape, position, new_position) else position
     
     def clear_lines(self):
